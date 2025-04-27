@@ -29,6 +29,28 @@ app.get('/stub/:id',(req,res)=>{
 
 });
 
+app.use(express.json()); // Parse JSON bodies
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+
+app.post('/api/add/', (req, res) => {
+    if (!req.body.apiPath) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Path is required',
+        code: 'VALIDATION_ERROR'
+      });
+    }
+    
+    res.status(201)
+    .set({
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache',
+      'X-Custom-Header': 'MyValue',
+      'X-Powered-By': 'Ashik'
+    })
+    .json({ message: 'Api added successfully!', created: true });
+  });
+
 
 //Used just an arrow function
 app.listen(SERVER_PORT, (request,response)=>{
