@@ -1,5 +1,6 @@
-const express = require('express')
-const SERVER_PORT= 9090
+const express = require('express');
+const middlewares = require('./middlewares/auth');
+const SERVER_PORT= 9090;
 const app = express();
 
 app.get('/',(req,res)=>{
@@ -32,7 +33,7 @@ app.get('/stub/:id',(req,res)=>{
 app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
-app.post('/api/add/', (req, res) => {
+app.post('/api/add/', middlewares.authMiddleware, (req, res) => {
     if (!req.body.apiPath) {
       return res.status(400).json({
         status: 'error',
@@ -49,6 +50,7 @@ app.post('/api/add/', (req, res) => {
       'X-Powered-By': 'Ashik'
     })
     .json({ message: 'Api added successfully!', created: true });
+
   });
 
 
