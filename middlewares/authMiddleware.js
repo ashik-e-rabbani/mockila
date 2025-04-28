@@ -5,14 +5,6 @@ const authMiddleware = (req, res, next) => {
           message: 'Authorization header missing'
       });
   }
-  
-  if (req.headers.authorization !== "secret") {
-      return res.status(403).json({
-          status: 'error',
-          message: 'Invalid authorization token'
-      });
-  }
-  
   next();
 };
 
